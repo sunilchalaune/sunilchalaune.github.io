@@ -190,11 +190,38 @@ h3 { font-size: 1.5rem; font-weight: 600; }
   letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
 }
 .result p { max-width: 75ch; }
-.result figure { margin: 18px 0 0; max-width: 780px; }
-.result img {
-  display: block; width: 100%; height: auto;
-  background: #fff; border: 1px solid var(--line); border-radius: 8px;
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
+.stats > div {
+  padding: 14px 16px; border-radius: 10px;
+  background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--line));
 }
+.stats dt { color: var(--muted); font-size: 0.85rem; line-height: 1.35; }
+.stats dd { font: 700 2.4rem/1.1 var(--display); margin-top: 6px; font-variant-numeric: tabular-nums; }
+.stats small { font: 600 1rem var(--display); letter-spacing: 0.06em; color: var(--muted); }
+.stats .hot { background: linear-gradient(120deg, #ffa13d, #ff6f5e); border-color: transparent; }
+.stats .hot dt, .stats .hot small { color: #4a1c0c; }
+.stats .hot dd { color: #2a0f06; }
+
+.result figure { margin: 20px 0 0; }
+.result figure a {
+  display: block; padding: 14px; border-radius: 14px; cursor: zoom-in;
+  background: #ffffff; border: 1px solid var(--line); box-shadow: var(--shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.result figure a:hover {
+  transform: translateY(-4px) scale(1.01);
+  border-color: var(--accent);
+  box-shadow: 0 18px 44px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.result img { display: block; width: 100%; height: auto; }
+
+/* In dark mode the chart is flipped to a dark background so it matches the page; hues are preserved. */
+@media (prefers-color-scheme: dark) {
+  .result figure a { background: #15101a; border-color: #3a2d3d; }
+  .result img { filter: invert(1) hue-rotate(180deg) saturate(1.35) brightness(1.08); mix-blend-mode: screen; }
+}
+@media (max-width: 820px) { .stats { grid-template-columns: 1fr; } .result figure a { padding: 6px; } }
 .result figcaption { margin-top: 8px; color: var(--muted); font-size: 0.9rem; }
 @media (max-width: 820px) { .study { grid-template-columns: 1fr; gap: 18px; } }
 
@@ -330,6 +357,6 @@ footer {
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .btn, .card { transition: none; }
+  .btn, .card, .result figure a { transition: none; }
   .scene *, .highway * { animation: none !important; }
 }
